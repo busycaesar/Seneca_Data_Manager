@@ -10,13 +10,12 @@ module.exports.initialize = function () {
     fs.readFile("./data/students.JSON", (err, data) => {
       if (err) reject("Unable to read the file");
       students = JSON.parse(data);
+      resolve();
     });
-
     fs.readFile("./data/programs.JSON", (err, data) => {
       if (err) reject("Unable to read the file");
       programs = JSON.parse(data);
     });
-
     resolve();
   });
 };
@@ -33,7 +32,6 @@ module.exports.getInternationalStudents = function () {
     const intStudents = students.filter((stu) => {
       return stu.isInternationalStudent === true;
     });
-
     if (intStudents.length > 0) resolve(intStudents);
     else reject("No Results Returned");
   });

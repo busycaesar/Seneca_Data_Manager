@@ -1,3 +1,14 @@
+/********************************************************************************* 
+*  WEB322 – Assignment 02 
+*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source  
+*  (including 3rd party web sites) or distributed to other students. 
+*  
+*  Name: Dev Jigishkumar Shah Student ID: 131623217 Date: 28/09/2022 
+* 
+*  Online (Cyclic) Link:  
+* 
+********************************************************************************/
+
 // ==> INCLUDING MODULES
 
 var express = require("express");
@@ -57,7 +68,7 @@ app.get("/programs", (req, res) => {
     .getPrograms()
     .then((data) => {
       res.setHeader("Content-Type", "application/json");
-      resolve.json(data);
+      res.json(data);
     })
     .catch((err) => {
       res.json({ Message: "Error" });
