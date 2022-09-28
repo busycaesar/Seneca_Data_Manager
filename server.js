@@ -1,6 +1,7 @@
 // ==> INCLUDING MODULES
 
 var express = require("express");
+const { resolve } = require("path");
 var app = express();
 var path = require("path");
 var data = require("./data-service.js");
@@ -9,38 +10,75 @@ var data = require("./data-service.js");
 
 var HTTP_PORT = process.env.PORT || 8080;
 
+app.use(express.static("public"));
+
 // ==> ON START FUNCTION
 
-function onHTTPStart(){
+function onHTTPStart() {
   console.log("Express http server listening on port " + HTTP_PORT);
 }
-
-app.use(express.static("public")); //////////////////////////////////////////////////////////////////////////// IS THIS THE CORRECT LOCATION FOR THIS STATEMENT?
 
 // ==> GET REQUESTS
 
 app.get("/", (req, res) => {
-  res.sendFile("D:/CPA Sem 3/WEB 322/web322-app/views/home.html");
+  res.sendFile(path.join(__dirname, "./views/home.html"));
 });
 
-app.get("/about.html", (req, res) => {
-  res.sendFile("D:/CPA Sem 3/WEB 322/web322-app/views/about.html");
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/about.html"));
 });
 
 app.get("/students", (req, res) => {
-  res.sendFile("D:/CPA Sem 3/WEB 322/web322-app/data/students.JSON");
+  data
+    .getAllStudents()
+    .then((data) => {
+      res.setHeader("Content-Type", "application/json");
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json({ Message: "Error" });
+    });
 });
 
-app.get("/intlstudents", (req, res) => {});
+app.get("/intlstudents", (req, res) => {
+  data
+    .getInternationalStudents()
+    .then((data) => {
+      res.setHeader("Content-Type", "application/json");
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json({ Message: "Error" });
+    });
+});
 
 app.get("/programs", (req, res) => {
-  res.sendFile("D:/CPA Sem 3/WEB 322/web322-app/data/programs.JSON");
-}); //////////////////////////////////////////////////////////////////////////////////////////////// THE DATA SEND IS YET TO BE CONVERTED INTO A JSON FORMATTED STRING.
+  data
+    .getPrograms()
+    .then((data) => {
+      res.setHeader("Content-Type", "application/json");
+      resolve.json(data);
+    })
+    .catch((err) => {
+      res.json({ Message: "Error" });
+    });
+});
 
-app.get("/app", (req, res) => {
-  res.send("404 Page Not Found");
+app.use((req, res) => {
+  res
+    .status(404)
+    .send(
+      "<h1>ERROR 404. PAGE NOT FOUND.</h1><img alt='Its error so no image.'/>"
+    );
 });
 
 // ==> LISTEN REQUEST.
 
-app.listen(HTTP_PORT,onHTTPStart);
+data
+  .initialize()
+  .then(() => {
+    app.listen(HTTP_PORT, onHTTPStart);
+  })
+  .catch((err) => {
+    console.log("Error in initializing the data.");
+  });
