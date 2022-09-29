@@ -1,15 +1,13 @@
 body {
-  background-color: #edebd7;
+  background-color: #7A28CB;
   font-size: 25px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+color: #EED5C2;
 }
 
 .navbar {
-  background-color: #6e8898;
-  border-color: #6e8898;
+  background-color: #EED5C2;
+  border-color: #E0C1B3;
 }
 
-div,
-a {
-  color: #4c3b4d;
-}
+/*#36382E*/
