@@ -1,13 +1,13 @@
-/********************************************************************************* 
-*  WEB322 – Assignment 02 
-*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source  
-*  (including 3rd party web sites) or distributed to other students. 
-*  
-*  Name: Dev Jigishkumar Shah Student ID: 131623217 Date: 28/09/2022 
-* 
-*  Online (Cyclic) Link:  
-* 
-********************************************************************************/
+/*********************************************************************************
+ *  WEB322 – Assignment 02
+ *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source
+ *  (including 3rd party web sites) or distributed to other students.
+ *
+ *  Name: Dev Jigishkumar Shah Student ID: 131623217 Date: 28/09/2022
+ *
+ *  Online (Cyclic) Link: https://fair-rose-cockroach-veil.cyclic.app
+ *
+ ********************************************************************************/
 
 // ==> INCLUDING MODULES
 
@@ -21,7 +21,7 @@ var data = require("./data-service.js");
 
 var HTTP_PORT = process.env.PORT || 8080;
 
-app.use(express.static("public"));
+app.use(express.static("public/css"));
 
 // ==> ON START FUNCTION
 
@@ -43,7 +43,6 @@ app.get("/students", (req, res) => {
   data
     .getAllStudents()
     .then((data) => {
-      res.setHeader("Content-Type", "application/json");
       res.json(data);
     })
     .catch((err) => {
@@ -55,7 +54,6 @@ app.get("/intlstudents", (req, res) => {
   data
     .getInternationalStudents()
     .then((data) => {
-      res.setHeader("Content-Type", "application/json");
       res.json(data);
     })
     .catch((err) => {
@@ -67,7 +65,6 @@ app.get("/programs", (req, res) => {
   data
     .getPrograms()
     .then((data) => {
-      res.setHeader("Content-Type", "application/json");
       res.json(data);
     })
     .catch((err) => {

@@ -1,10 +1,15 @@
-body{
-    background-color: #6E44FF;
-    font-size: 25px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  background-color: #edebd7;
+  font-size: 25px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.navbar{
-    background-color: #171123;
-    border-color: #171123;
+.navbar {
+  background-color: #6e8898;
+  border-color: #6e8898;
+}
+
+div,
+a {
+  color: #4c3b4d;
 }
