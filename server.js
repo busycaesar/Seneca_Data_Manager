@@ -12,21 +12,53 @@
 
 // ==> INCLUDING MODULES
 
-var express = require("express");
-var app = express();
-var path = require("path");
-var data = require("./data-service.js");
-var multer = require("multer");
-var fs = require("fs");
+const express = require("express");
+const app = express();
+const path = require("path");
+const data = require("./data-service");
+const multer = require("multer");
+const fs = require("fs");
+const exphbs = require("express-handlebars");
+const { equal } = require("assert");
 
 // ==> SETTING PORT
 
-var HTTP_PORT = process.env.PORT || 8080;
+const HTTP_PORT = process.env.PORT || 8080;
 
 // ==> STATIC FILES
 
 app.use(express.static("public/css"));
 app.use(express.urlencoded({ extended: true }));
+app.engine(
+  ".hbs",
+  exphbs.engine({
+    extname: ".hbs",
+    helpers: {
+      navLink: (url, options) => {
+        return (
+          "<li" +
+          (url == app.locals.activeRoute ? ' class="active" ' : "") +
+          '><a href="' +
+          url +
+          '">' +
+          options.fn(this) +
+          "</a></li>"
+        );
+        equal: f;
+      },
+      equal: (lvalue, rvalue, options) => {
+        if (arguments.length < 3)
+          throw new Error("Handlebars Helper equal needs 2 parameters");
+        if (lvalue != rvalue) {
+          return options.inverse(this);
+        } else {
+          return options.fn(this);
+        }
+      },
+    },
+  })
+);
+app.set("view engine", ".hbs");
 
 // ==> ON START FUNCTION
 
@@ -47,58 +79,65 @@ const upload = multer({ storage: storage });
 
 // ==> GET REQUESTS
 
+app.use(function (req, res, next) {
+  let route = req.baseUrl + req.path;
+  app.locals.activeRoute = route == "/" ? "/" : route.replace(/\/$/, "");
+  next();
+});
+
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/home.html"));
+  res.render("home");
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/about.html"));
+  res.render("about");
 });
 
 app.get("/students", (req, res) => {
   if (req.query.status) {
     data
-      .getStudentsByStatus(status)
+      .getStudentsByStatus(req.query.status)
       .then((data) => {
-        res.json(data);
+        res.render("students", { students: data });
       })
       .catch((err) => {
         res.json({ Message: "Error" });
       });
-  }
-  if (req.query.value) {
-    getStudentsByProgramCode(programCode)
+  } else if (req.query.program) {
+    data
+      .getStudentsByProgramCode(req.query.program)
       .then((data) => {
-        res.json(data);
+        res.render("students", { students: data });
       })
       .catch((err) => {
         res.json({ Message: "Error" });
       });
-  }
-  if (req.query.credential) {
-    getStudentsByExpectedCredential(credential)
+  } else if (req.query.credential) {
+    data
+      .getStudentsByExpectedCredential(req.query.credential)
       .then((data) => {
-        res.json(data);
+        res.render("students", { students: data });
       })
       .catch((err) => {
         res.json({ Message: "Error" });
       });
+  } else {
+    data
+      .getAllStudents()
+      .then((data) => {
+        res.render("students", { students: data });
+      })
+      .catch((err) => {
+        res.render("students", { message: "no results" });
+      });
   }
-  data
-    .getAllStudents()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json({ Message: "Error" });
-    });
 });
 
 app.get("/intlstudents", (req, res) => {
   data
     .getInternationalStudents()
     .then((data) => {
-      res.json(data);
+      res.render("students", { students: data });
     })
     .catch((err) => {
       res.json({ Message: "Error" });
@@ -109,7 +148,7 @@ app.get("/programs", (req, res) => {
   data
     .getPrograms()
     .then((data) => {
-      res.json(data);
+      res.render("programs", { programs: data });
     })
     .catch((err) => {
       res.json({ Message: "Error" });
@@ -117,28 +156,31 @@ app.get("/programs", (req, res) => {
 });
 
 app.get("/students/add", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/addStudent.html"));
+  res.render("addStudent");
 });
 
 app.get("/images/add", (req, res) => {
-  res.sendFile(path.join(__dirname, "./views/addImage.html"));
+  res.render("addImage");
 });
 
 app.get("/images", (req, res) => {
   fs.readdir("./public/images/uploaded", (err, data) => {
     if (err) console.log("Error in reading the directory.");
-    else res.json({ images: data });
+    else {
+      console.log(data);
+      res.render("images", { images: data });
+    }
   });
 });
 
-app.get("/student/value", (req, res) => {
+app.get("/student/:studentId", (req, res) => {
   data
-    .getStudentById(sid)
+    .getStudentById(req.params.studentId)
     .then((data) => {
-      res.json(data);
+      res.render("student", { student: data });
     })
     .catch((err) => {
-      res.json({ Message: "Error" });
+      res.render("student", { message: "no results" });
     });
 });
 
@@ -150,6 +192,16 @@ app.post("/images/add", upload.single("imageFile"), (req, res) => {
 
 app.post("/students/add", (req, res) => {
   data.addStudent(req.body).then(res.redirect("/students"));
+});
+
+app.post("/student/update", (req, res) => {
+  console.log(req.body);
+  data
+    .updateStudent(req.body)
+    .then(res.redirect("/students"))
+    .catch((err) => {
+      console.log("There was an error", err);
+    });
 });
 
 // ==> ERROR 404

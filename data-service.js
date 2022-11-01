@@ -59,7 +59,7 @@ module.exports.addStudent = (studentData) => {
     studentData.studentID = newID;
     students.push(studentData);
   });
-}; /////===== EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY. // EACH PROPERTY OF THE OBJECT MIGHT HAVE TO BE ADDED INDIVIDUALLY.
+};
 
 module.exports.getStudentsByStatus = (status) => {
   return new Promise((resolve, reject) => {
@@ -102,5 +102,23 @@ module.exports.getStudentById = (sid) => {
     });
     if (idStu.length > 0) resolve(idStu);
     else reject("No Results Returned");
+  });
+};
+
+module.exports.updateStudent = (studentData) => {
+  return new Promise((resolve, reject) => {
+    students.forEach((stu) => {
+      if (stu.studentID === studentData.studentID) {
+        stu.studentID = studentData.studentID;
+        stu.firstName = studentData.firstName;
+        stu.lastName = studentData.lastName;
+        stu.program = studentData.program;
+        stu.expectedCredential = studentData.expectedCredential;
+        stu.status = studentData.status;
+        stu.isInternationalStudent = studentData.isInternationalStudent;
+        resolve();
+      }
+    });
+    reject("Student not found");
   });
 };
