@@ -27,7 +27,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 // ==> STATIC FILES
 
-app.use(express.static("public/css"));
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.engine(
   ".hbs",
@@ -133,17 +133,6 @@ app.get("/students", (req, res) => {
   }
 });
 
-app.get("/intlstudents", (req, res) => {
-  data
-    .getInternationalStudents()
-    .then((data) => {
-      res.render("students", { students: data });
-    })
-    .catch((err) => {
-      res.json({ Message: "Error" });
-    });
-});
-
 app.get("/programs", (req, res) => {
   data
     .getPrograms()
@@ -167,7 +156,6 @@ app.get("/images", (req, res) => {
   fs.readdir("./public/images/uploaded", (err, data) => {
     if (err) console.log("Error in reading the directory.");
     else {
-      console.log(data);
       res.render("images", { images: data });
     }
   });
@@ -195,7 +183,6 @@ app.post("/students/add", (req, res) => {
 });
 
 app.post("/student/update", (req, res) => {
-  console.log(req.body);
   data
     .updateStudent(req.body)
     .then(res.redirect("/students"))

@@ -100,7 +100,7 @@ module.exports.getStudentById = (sid) => {
     const idStu = students.filter((stu) => {
       return stu.studentID === sid;
     });
-    if (idStu.length > 0) resolve(idStu);
+    if (idStu.length > 0) resolve(idStu[0]);
     else reject("No Results Returned");
   });
 };

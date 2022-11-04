@@ -1,29 +1,29 @@
 <div class="row"> 
     <div class="col-md-12">
-        <h2>{{firstName}} {{lastName}} - Student: {{studentID}}</h2>
+        <h2>{{student.firstName}} {{student.lastName}} - Student: {{student.studentID}}</h2>
         <hr /> 
         <form method="post" action="/student/update">
-        <input type="hidden" name="studentID">
+        <input type="hidden" name="studentID" value="{{student.studentID}}">
             <fieldset> 
                 <legend>Personal Information</legend> 
-                <div class="row"> 
+                <div class="row">
                     <div class="col-md-6"> 
                         <div class="form-group"> 
                             <label for="firstName">First Name</label> 
-                            <input class="form-control" id="firstName" name="firstName" type="text" value="{{firstName}}" /> 
+                            <input class="form-control" id="firstName" name="firstName" type="text" value="{{student.firstName}}" /> 
                         </div> 
                     </div> 
                     <div class="col-md-6"> 
                         <div class="form-group"> 
                             <label for="lastName">Last Name</label> 
-                            <input class="form-control" id="lastName" name="lastName" type="text" value="{{lastName}}" /> 
+                            <input class="form-control" id="lastName" name="lastName" type="text" value="{{student.lastName}}" /> 
                         </div> 
                     </div>
                      <div class="col-md-6"> 
                         <div class="form-group"> 
                             <label for="email">Email</label> 
                             <input class="form-control"
-                            id="email" name="email" type="email" value="{{email}}" /> 
+                            id="email" name="email" type="email" value="{{student.email}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
@@ -31,7 +31,7 @@
                             <label for="phone">Phone</label> 
                             <input class="form-control" 
                             id="phone"
-                            name="phone" type="tel" value="{{phone}}" /> 
+                            name="phone" type="tel" value="{{student.phone}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
@@ -39,7 +39,7 @@
                             <label for="street">Address (Street)</label> 
                             <input class="form-control" 
                             id="street"
-                            name="addressStreet" type="text" value="{{addressStreet}}" /> 
+                            name="addressStreet" type="text" value="{{student.addressStreet}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
@@ -47,7 +47,7 @@
                             <label for="city">Address (City)</label> 
                             <input class="form-control" 
                             id="city"
-                            name="addressCity" type="text" value="{{addressCity}}" /> 
+                            name="addressCity" type="text" value="{{student.addressCity}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
@@ -55,7 +55,7 @@
                             <label for="state">Address (State)</label> 
                             <input class="form-control" 
                             id="state"
-                            name="addressState" type="text" value="{{addressState}}" /> 
+                            name="addressState" type="text" value="{{student.addressState}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
@@ -63,17 +63,17 @@
                             <label for="zip">Address (Zip Code)</label> 
                             <input class="form-control" 
                             id="zip"
-                            name="addressPostal" type="text" value="{{addressPostal}}" /> 
+                            name="addressPostal" type="text" value="{{student.addressPostal}}" /> 
                         </div> 
                     </div>
                     <div class="col-md-6"> 
                         <div class="form-group"> 
                             <label for="status">Status</label> 
                            <label  class="checkbox-inline">
-                                <input type="radio" id="status" name="status" value="Full Time" {{#equal status "Full Time"}}checked{{/equal}} /> Full Time
+                                <input type="radio" id="status" name="status" value="Full Time" {{#equal student.status "Full Time"}}checked{{/equal}} /> Full Time
                             </label>
                             <label class="checkbox-inline">
-                                <input type="radio" id="status" name="status" value="Part Time" {{#equal status "Part Time"}}checked{{/equal}} /> Part Time
+                                <input type="radio" id="status" name="status" value="Part Time" {{#equal student.status "Part Time"}}checked{{/equal}} /> Part Time
                             </label> 
                         </div> 
                     </div>
@@ -81,18 +81,18 @@
                         <div class="form-group">
                             <label for="program">Program</label>
                                 <select class="form-control" name="program" id="program">
-                                    <option {{#equal program "ACF"}}selected{{/equal}}>Accounting and Finance</option>
-                                    <option {{#equal program "AVO"}}selected{{/equal}}>Aviation Operations</option>
-                                    <option {{#equal program "DAN"}}selected{{/equal}}>3D Animation</option>
-                                    <option {{#equal program "CPP"}}selected{{/equal}}>Computer Programming</option>
-                                    <option {{#equal program "CPA"}}selected{{/equal}}>Computer Programming and Analysis</option>
-                                    <option {{#equal program "CTY"}}selected{{/equal}}>Computer Systems Technology</option>
-                                    <option {{#equal program "CSN"}}selected{{/equal}}>Computer Systems Technician</option>
-                                    <option {{#equal program "BSD"}}selected{{/equal}}>
+                                    <option {{#equal student.program "ACF"}}selected{{/equal}}>Accounting and Finance</option>
+                                    <option {{#equal student.program "AVO"}}selected{{/equal}}>Aviation Operations</option>
+                                    <option {{#equal student.program "DAN"}}selected{{/equal}}>3D Animation</option>
+                                    <option {{#equal student.program "CPP"}}selected{{/equal}}>Computer Programming</option>
+                                    <option {{#equal student.program "CPA"}}selected{{/equal}}>Computer Programming and Analysis</option>
+                                    <option {{#equal student.program "CTY"}}selected{{/equal}}>Computer Systems Technology</option>
+                                    <option {{#equal student.program "CSN"}}selected{{/equal}}>Computer Systems Technician</option>
+                                    <option {{#equal student.program "BSD"}}selected{{/equal}}>
                                     Software Development (Honours Bachelor of Technology)
                                     </option>
-                                    <option {{#equal program "IFS"}}selected{{/equal}}>Informatics and Security(Honours Bachelor of Technology)</option>
-                                    <option {{#equal program "DAS"}}selected{{/equal}}>Data Science and Analytics program (Honours Bachelor of Technology)</option>
+                                    <option {{#equal student.program "IFS"}}selected{{/equal}}>Informatics and Security(Honours Bachelor of Technology)</option>
+                                    <option {{#equal student.program "DAS"}}selected{{/equal}}>Data Science and Analytics program (Honours Bachelor of Technology)</option>
                             </select>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                             <input 
                             class="form-control" 
                             id="intStu"
-                            type="checkbox" name="International Student" {{#if isInternationalStudent}}checked{{/if}} />
+                            type="checkbox" name="International Student" {{#if student.isInternationalStudent}}checked{{/if}} />
                         </div>
                     </div>
                    <div class="col-md-6"> 
@@ -112,7 +112,7 @@
                             </label> 
                             <input class="form-control" 
                             id="cred"
-                            name="expectedCredential" type="text" value="{{expectedCredential}}" /> 
+                            name="expectedCredential" type="text" value="{{student.expectedCredential}}" /> 
                         </div> 
                     </div> 
                     <div class="col-md-6"> 
@@ -120,7 +120,7 @@
                             <label for="regDate">Registration Date</label> 
                             <input class="form-control" 
                             id="regDate"
-                            name="registrationDate" type="text" value="{{registrationDate}}" /> 
+                            name="registrationDate" type="text" value="{{student.registrationDate}}" /> 
                         </div> 
                     </div>
                 </div> 
