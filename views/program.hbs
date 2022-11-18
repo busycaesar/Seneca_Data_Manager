@@ -1,29 +1,36 @@
 <div class="row">
   <div class="col-md-12">
-    <h2>{{program.programName}} - Program Code: {{program.programCode}}</h2>
+    <h2>
+      {{program.programName}} ({{program.programCode}})</h2>
     <hr />
     <form method="post" action="/program/update">
       <fieldset>
+        <legend>Program Information</legend>
         <div class="row">
-          <div>
-            <label for="programName">Program Code</label>
-            <input
-              type="hidden"
-              name="programCode"
-              value="{{data.programCode}}"
-            />
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="firstName">Program Code:</label>
+              <input
+                class="form-control"
+                id="programCode"
+                name="programCode"
+                type="text"
+                value="{{program.programCode}}"
+                readonly
+              />
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-              <label for="programName">Program Name</label>
+              <label for="registration">Program Name:</label>
               <input
                 class="form-control"
                 id="programName"
-                name="Program Name"
+                name="programName"
                 type="text"
-                value="{{data.programName}}"
+                value="{{program.programName}}"
               />
             </div>
           </div>

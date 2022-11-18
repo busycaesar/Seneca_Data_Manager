@@ -1,13 +1,9 @@
 <div class="row">
     <div class="col-md-12">
-
         <h2>{{viewData.student.firstName}} {{viewData.student.lastName}} - student: {{viewData.student.studentID}}</h2>
         <hr />
-
         <form method="post" action="/student/update">
-
             <input type="hidden" name="studentID" value="{{viewData.student.studentID}}" />
-
             <fieldset>
                 <legend>Personal Information</legend>
                 <div class="row">
@@ -97,7 +93,6 @@
                             <input class="form-control" type="checkbox" id="isInternationalStudent" name="isInternationalStudent" {{#if viewData.student.isInternationalStudent}} checked {{/if}} />
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="expectedCredential">Expected Credential:</label>

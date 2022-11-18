@@ -206,18 +206,22 @@ module.exports.addProgram = (programData) => {
 };
 
 module.exports.updateProgram = (programData) => {
+  console.log(programData);
   return new Promise((resolve, reject) => {
     for (data in programData) {
-      if (programData[data] == "") programData[data] = null;
+      if (data.trim() == "") {
+        data = null;
+      }
     }
-    Program.update(programData, {
-      where: { programCode: programData.programCode },
-    })
+    Program.update(
+      { programName: programData.programName },
+      { where: { programCode: programData.programCode } }
+    )
       .then(() => {
         resolve();
       })
       .catch((err) => {
-        reject("unable to update program");
+        reject();
       });
   });
 };

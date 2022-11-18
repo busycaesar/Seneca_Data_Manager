@@ -98,7 +98,8 @@ app.get("/students", (req, res) => {
       .getStudentsByStatus(req.query.status)
       .then((data) => {
         if (data.length > 0) res.render("students", { students: data });
-        else res.render("students", { message: "no results" });
+        else
+          res.render("students", { message: "No Students in the database." });
       })
       .catch((err) => {
         res.status(500).send({ Message: "Error" });
@@ -108,7 +109,8 @@ app.get("/students", (req, res) => {
       .getStudentsByProgramCode(req.query.program)
       .then((data) => {
         if (data.length > 0) res.render("students", { students: data });
-        else res.render("students", { message: "no results" });
+        else
+          res.render("students", { message: "No Students in the database." });
       })
       .catch((err) => {
         res.status(500).send({ Message: "Error" });
@@ -118,7 +120,8 @@ app.get("/students", (req, res) => {
       .getStudentsByExpectedCredential(req.query.credential)
       .then((data) => {
         if (data.length > 0) res.render("students", { students: data });
-        else res.render("students", { message: "no results" });
+        else
+          res.render("students", { message: "No Students in the database." });
       })
       .catch((err) => {
         res.status(500).send({ Message: "Error" });
@@ -177,13 +180,10 @@ app.get("/student/:studentId", (req, res) => {
   // VARIABLE DECLARATION.
   let viewData = {};
   data
-    .getStudentByNum(req.params.studentId)
+    .getStudentById(req.params.studentId)
     .then((data) => {
-      if (data) {
-        viewData.student = data;
-      } else {
-        viewData.student = null;
-      }
+      if (data) viewData.student = data[0];
+      else viewData.student = null;
     })
     .catch(() => {
       viewData.student = null;
@@ -201,11 +201,8 @@ app.get("/student/:studentId", (req, res) => {
       viewData.programs = [];
     })
     .then(() => {
-      if (viewData.student == null) {
-        res.status(404).send("Student Not Found");
-      } else {
-        res.render("student", { viewData: viewData });
-      }
+      if (viewData.student == null) res.status(404).send("Student Not Found");
+      else res.render("student", { viewData: viewData });
     })
     .catch((err) => {
       res.status(500).send("Unable to Show Students");
@@ -220,12 +217,10 @@ app.get("/program/:programCode", (req, res) => {
   data
     .getProgramByCode(req.params.programCode)
     .then((data) => {
-      if (data.length > 0) res.render("program", { program: data });
-      else res.status(404).send("Program Not Found");
+      if (data.length > 0) res.render("program", { program: data[0] });
+      else res.status(500).send("Program not found.");
     })
-    .catch((err) => {
-      res.status(500).send("Unable to show student.");
-    });
+    .catch(() => res.status(404).send("Program Not Found"));
 });
 
 app.get("/program/delete/:programCode", (req, res) => {
@@ -290,7 +285,9 @@ app.post("/programs/add", (req, res) => {
 app.post("/program/update", (req, res) => {
   data
     .updateProgram(req.body)
-    .then(res.redirect("/programs"))
+    .then(() => {
+      res.redirect("/programs");
+    })
     .catch((err) => {
       res.status(500).send("There was an error", err);
     });
