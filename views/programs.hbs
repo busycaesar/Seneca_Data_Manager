@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-md-12">
-    <h2>Programs</h2>
+    <h2>
+      Programs
+      <a href="/programs/add" class="btn btn-success pull-right">Add New Program</a>
+    </h2>
     <br />
     <div class="table-responsive">
       <table class="table">
@@ -15,14 +18,18 @@
                 {{programCode}}
               </a>
             </td>
-            <td>
-              <a href="/students?program={{programCode}}">
-                {{programName}}
-              </a>
-            </td>
+            <td><a href="/program/{{programCode}}">{{programName}}</a></td>
+            <td><a href="/program/delete/{{programCode}}"><div
+                  class="btn btn-danger"
+                >Remove</div></a></td>
           </tr>
         {{/each}}
       </table>
+      {{#unless data}}
+        <div class="col-md-12 text-center">
+          <strong>{{message}}</strong>
+        </div>
+      {{/unless}}
     </div>
   </div>
 </div>
