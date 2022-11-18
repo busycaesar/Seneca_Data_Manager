@@ -1,25 +1,24 @@
-/********************************************************************************* 
-*  WEB322 – Assignment 04 
-*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part  
-*  of this assignment has been copied manually or electronically from any other source  
-*  (including 3rd party web sites) or distributed to other students. 
-*  
-*  Name: DEV JIGISHKUMAR SHAH Student ID: 131623217 Date: 12/11/2022
-* 
-*  Online (Heroku) Link: https://web--322.herokuapp.com/
-* 
-********************************************************************************/ 
+/*********************************************************************************
+ *  WEB322 – Assignment 04
+ *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part
+ *  of this assignment has been copied manually or electronically from any other source
+ *  (including 3rd party web sites) or distributed to other students.
+ *
+ *  Name: DEV JIGISHKUMAR SHAH Student ID: 131623217 Date: 17/11/2022
+ *
+ *  Online (Heroku) Link: https://web--322.herokuapp.com/
+ *
+ ********************************************************************************/
 
 // ==> INCLUDING MODULES
 
 const express = require("express");
-const app = express();
 const path = require("path");
-const data = require("./data-service");
-const multer = require("multer");
+const data = require("./data-service.js");
 const fs = require("fs");
+const multer = require("multer");
 const exphbs = require("express-handlebars");
-const { equal } = require("assert");
+const app = express();
 
 // ==> SETTING PORT
 
@@ -33,8 +32,9 @@ app.engine(
   ".hbs",
   exphbs.engine({
     extname: ".hbs",
+    defaultLayout: "main",
     helpers: {
-      navLink: (url, options) => {
+      navLink: function (url, options) {
         return (
           "<li" +
           (url == app.locals.activeRoute ? ' class="active" ' : "") +
@@ -44,9 +44,8 @@ app.engine(
           options.fn(this) +
           "</a></li>"
         );
-        equal: f;
       },
-      equal: (lvalue, rvalue, options) => {
+      equal: function (lvalue, rvalue, options) {
         if (arguments.length < 3)
           throw new Error("Handlebars Helper equal needs 2 parameters");
         if (lvalue != rvalue) {
@@ -98,37 +97,42 @@ app.get("/students", (req, res) => {
     data
       .getStudentsByStatus(req.query.status)
       .then((data) => {
-        res.render("students", { students: data });
+        if (data.length > 0) res.render("students", { students: data });
+        else res.render("students", { message: "no results" });
       })
       .catch((err) => {
-        res.json({ Message: "Error" });
+        res.status(500).send({ Message: "Error" });
       });
   } else if (req.query.program) {
     data
       .getStudentsByProgramCode(req.query.program)
       .then((data) => {
-        res.render("students", { students: data });
+        if (data.length > 0) res.render("students", { students: data });
+        else res.render("students", { message: "no results" });
       })
       .catch((err) => {
-        res.json({ Message: "Error" });
+        res.status(500).send({ Message: "Error" });
       });
   } else if (req.query.credential) {
     data
       .getStudentsByExpectedCredential(req.query.credential)
       .then((data) => {
-        res.render("students", { students: data });
+        if (data.length > 0) res.render("students", { students: data });
+        else res.render("students", { message: "no results" });
       })
       .catch((err) => {
-        res.json({ Message: "Error" });
+        res.status(500).send({ Message: "Error" });
       });
   } else {
     data
       .getAllStudents()
       .then((data) => {
-        res.render("students", { students: data });
+        if (data.length > 0) res.render("students", { students: data });
+        else
+          res.render("students", { message: "No Students in the database." });
       })
       .catch((err) => {
-        res.render("students", { message: "no results" });
+        res.status(500).send({ Message: "Error" });
       });
   }
 });
@@ -137,15 +141,23 @@ app.get("/programs", (req, res) => {
   data
     .getPrograms()
     .then((data) => {
-      res.render("programs", { programs: data });
+      if (data.length > 0) res.render("programs", { programs: data });
+      else res.render("programs", { message: "No Programs in the database." });
     })
     .catch((err) => {
-      res.json({ Message: "Error" });
+      res.status(500).send({ Message: "Error" });
     });
 });
 
 app.get("/students/add", (req, res) => {
-  res.render("addStudent");
+  data
+    .getPrograms()
+    .then((data) => {
+      res.render("addStudent", { programs: data });
+    })
+    .catch((err) => {
+      res.render("addStudent", { programs: [] });
+    });
 });
 
 app.get("/images/add", (req, res) => {
@@ -162,13 +174,79 @@ app.get("/images", (req, res) => {
 });
 
 app.get("/student/:studentId", (req, res) => {
+  // VARIABLE DECLARATION.
+  let viewData = {};
   data
-    .getStudentById(req.params.studentId)
+    .getStudentByNum(req.params.studentId)
     .then((data) => {
-      res.render("student", { student: data });
+      if (data) {
+        viewData.student = data;
+      } else {
+        viewData.student = null;
+      }
+    })
+    .catch(() => {
+      viewData.student = null;
+    })
+    .then(data.getPrograms)
+    .then((data) => {
+      viewData.programs = data;
+      for (let i = 0; i < viewData.programs.length; i++) {
+        if (viewData.programs[i].programCode == viewData.student.program) {
+          viewData.programs[i].selected = true;
+        }
+      }
+    })
+    .catch(() => {
+      viewData.programs = [];
+    })
+    .then(() => {
+      if (viewData.student == null) {
+        res.status(404).send("Student Not Found");
+      } else {
+        res.render("student", { viewData: viewData });
+      }
     })
     .catch((err) => {
-      res.render("student", { message: "no results" });
+      res.status(500).send("Unable to Show Students");
+    });
+});
+
+app.get("/programs/add", (req, res) => {
+  res.render("addProgram");
+});
+
+app.get("/program/:programCode", (req, res) => {
+  data
+    .getProgramByCode(req.params.programCode)
+    .then((data) => {
+      if (data.length > 0) res.render("program", { program: data });
+      else res.status(404).send("Program Not Found");
+    })
+    .catch((err) => {
+      res.status(500).send("Unable to show student.");
+    });
+});
+
+app.get("/program/delete/:programCode", (req, res) => {
+  data
+    .deleteProgramByCode(req.params.programCode)
+    .then(() => {
+      res.redirect("/programs");
+    })
+    .catch((err) => {
+      res.status(500).send("Unable to Remove Program / Program not found");
+    });
+});
+
+app.get("/student/delete/:studentID", (req, res) => {
+  data
+    .deleteStudentById(req.params.studentID)
+    .then(() => {
+      res.redirect("/students");
+    })
+    .catch(() => {
+      res.status(500).send("Unable to Remove Student / Student not found");
     });
 });
 
@@ -179,15 +257,42 @@ app.post("/images/add", upload.single("imageFile"), (req, res) => {
 });
 
 app.post("/students/add", (req, res) => {
-  data.addStudent(req.body).then(res.redirect("/students"));
+  data
+    .addStudent(req.body)
+    .then(res.redirect("/students"))
+    .catch((err) => {
+      res.status(500).send("Unable to Add Student");
+    });
 });
 
 app.post("/student/update", (req, res) => {
   data
     .updateStudent(req.body)
-    .then(res.redirect("/students"))
+    .then(() => {
+      res.redirect("/students");
+    })
     .catch((err) => {
-      console.log("There was an error", err);
+      res.status(500).send("There was an error", err);
+    });
+});
+
+app.post("/programs/add", (req, res) => {
+  data
+    .addProgram(req.body)
+    .then(() => {
+      res.redirect("/programs");
+    })
+    .catch((err) => {
+      res.status(500).send("Unable to Add Program");
+    });
+});
+
+app.post("/program/update", (req, res) => {
+  data
+    .updateProgram(req.body)
+    .then(res.redirect("/programs"))
+    .catch((err) => {
+      res.status(500).send("There was an error", err);
     });
 });
 
@@ -209,5 +314,5 @@ data
     app.listen(HTTP_PORT, onHTTPStart);
   })
   .catch((err) => {
-    console.log("Error in initializing the data.");
+    res.status(500).send("Error in initializing the data.");
   });
