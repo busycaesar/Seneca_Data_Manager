@@ -1,6 +1,8 @@
 # WEB322 Web Programming Tools and Frameworks
 
-## This is the app which we build little by little every week in form of Assignments of WEB 322.
+## This is the app which we build gradually every week in form of Assignments of WEB 322.
+
+## Technologies Used: HTML, CSS, Node.js, Express.js, Handlebars.js, PostgresDB, MVC Framework.
 
 # Warning
 
