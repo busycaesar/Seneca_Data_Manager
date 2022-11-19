@@ -10,14 +10,3 @@ body {
   border-color: #00171f;
   font-size: 15px;
 }
-
-.navbar a {
-  text-decoration: none;
-}
-
-a,
-a:hover,
-a:visited {
-  color: #f7f7ff;
-  text-decoration: underline;
-}
