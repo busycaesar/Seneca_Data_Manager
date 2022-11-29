@@ -254,7 +254,9 @@ app.post("/images/add", upload.single("imageFile"), (req, res) => {
 app.post("/students/add", (req, res) => {
   data
     .addStudent(req.body)
-    .then(()=>{res.redirect("/students");})
+    .then(() => {
+      res.redirect("/students");
+    })
     .catch((err) => {
       res.status(500).send("Unable to Add Student");
     });
