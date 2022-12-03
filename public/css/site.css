@@ -10,3 +10,20 @@ body {
   border-color: #00171f;
   font-size: 15px;
 }
+
+.buttons {
+  background-color: #00171f;
+  color: #f7f7ff;
+  border: 0px;
+}
+
+.buttons:hover {
+  color: #00171f;
+  background-color: #f7f7ff;
+  border: 0px;
+}
+
+.authBtn {
+  background-color: #00171f;
+  color: #f7f7ff;
+}

@@ -206,7 +206,6 @@ module.exports.addProgram = (programData) => {
 };
 
 module.exports.updateProgram = (programData) => {
-  console.log(programData);
   return new Promise((resolve, reject) => {
     for (data in programData) {
       if (data.trim() == "") {
@@ -243,7 +242,6 @@ module.exports.getProgramByCode = (pcode) => {
 };
 
 module.exports.deleteProgramByCode = (pcode) => {
-  console.log(pcode);
   return new Promise((resolve, reject) => {
     Program.destroy({
       where: {
@@ -260,7 +258,6 @@ module.exports.deleteProgramByCode = (pcode) => {
 };
 
 module.exports.deleteStudentById = (sId) => {
-  console.log(sId);
   return new Promise((resolve, reject) => {
     Student.destroy({
       where: {
