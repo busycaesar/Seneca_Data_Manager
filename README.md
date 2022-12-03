@@ -2,7 +2,7 @@
 
 ## This is the app which we build gradually every week in form of Assignments of WEB 322.
 
-## Technologies Used: HTML5, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MVC Framework.
+## Technologies Used: MVC Framework, HTML5, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MongoDB.
 
 # Warning
 
