@@ -1,51 +1,52 @@
 <div class="row">
-  <div class="col-md-12">
-    <div class="col-md-12">
-      <h2>Login</h2>
-      <br />
-      {{#if errorMessage}}
-     <div class="alert alert-danger"> <strong>Error:</strong> {{errorMessage}}</div>
-      {{/if}}
-<form method="post" action="/login">
-        <fieldset>
-          <legend>Login</legend>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="userName">User Name</label>
-                <input
-                  class="form-control"
-                  id="userName"
-                  name="userName"
-                  type="text"
-                  required
-                />
-              </div>
+  <div class="col-6 col-md-4">
+  </div>
+  <div class="col-6 col-md-4">
+    <h2>User Account Login</h2>
+    <br />
+    {{#if errorMessage}}
+      <div class="alert alert-danger">
+        <strong>Error:</strong>
+        {{errorMessage}}</div>
+    {{/if}}
+    <form method="post" action="/login">
+      <fieldset>
+        <legend>Login</legend>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="userName">User Name</label>
+              <input
+                class="form-control"
+                id="userName"
+                name="userName"
+                type="text"
+                required
+              />
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="password">Password:</label>
-                <input
-                  class="form-control"
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                />
-              </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                class="form-control"
+                id="password"
+                name="password"
+                type="password"
+                required
+              />
             </div>
           </div>
-        </fieldset>
-        <hr />
-        <input
-          type="submit"
-          class="btn btn-primary pull-right"
-          value="Add Program"
-        /><br /><br /><br />
-      </form>
-
-    </div>
+        </div>
+      </fieldset>
+      <hr />
+      <input
+        type="submit"
+        class="btn btn-primary pull-right"
+        value="Login"
+      /><br /><br /><br />
+    </form>
   </div>
 </div>

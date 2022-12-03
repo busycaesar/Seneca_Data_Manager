@@ -337,7 +337,7 @@ app.post("/program/update", ensureLogin, (req, res) => {
 app.post("/register", (req, res) => {
   dataServiceAuth
     .registerUser(req.body)
-    .then((data) => {
+    .then(() => {
       res.render("register", { successMessage: "User created" });
     })
     .catch((err) => {

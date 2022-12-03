@@ -11,14 +11,19 @@ body {
   font-size: 15px;
 }
 
-.buttons{
+.buttons {
   background-color: #00171f;
   color: #f7f7ff;
   border: 0px;
 }
 
-.buttons:hover{
+.buttons:hover {
   color: #00171f;
   background-color: #f7f7ff;
-border: 0px;
+  border: 0px;
+}
+
+.authBtn {
+  background-color: #00171f;
+  color: #f7f7ff;
 }
