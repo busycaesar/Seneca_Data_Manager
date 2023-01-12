@@ -1,8 +1,8 @@
 # WEB322 Web Programming Tools and Frameworks
 
-## This is the app which we build gradually every week in form of Assignments of WEB 322.
+## This is a Web Application which can create, display, update, save and delete the data of the students as well as courses using HTML forms. The mail focus of this application was learning backend development; therefore, low efforts are given in making frontend attractive and functional.
 
-## Technologies Used: MVC Framework, HTML5, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MongoDB.
+## Technologies Used: MVC Framework, CRUD Operation, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MongoDB.
 
 # Warning
 
