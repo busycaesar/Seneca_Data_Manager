@@ -1,8 +1,8 @@
 # WEB322 Web Programming Tools and Frameworks
 
-## This is a Web Application which can create, display, update, save and delete the data of the students as well as courses using HTML forms. The mail focus of this application was learning backend development; therefore, low efforts are given in making frontend attractive and functional.
+## This is a Web Application which can perform CRUD operation for the data of student as well as courses. This main purpose of this project was to learn Node.js and Express.js.
 
-## Technologies Used: MVC Framework, CRUD Operation, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MongoDB.
+## Tech Stack: HTML, CSS, Bootstrap5, Node.js, Express.js, Handlebars.js, PostgresDB, MongoDB.
 
 # Warning
 
