@@ -1,4 +1,4 @@
-# WEB322 Web Programming Tools and Frameworks
+# School Data Manager
 
 ## This is a Web Application which can perform CRUD operation for the data of student as well as courses. This main purpose of this project was to learn Node.js and Express.js.
 
